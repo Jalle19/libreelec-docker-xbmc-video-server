@@ -27,6 +27,11 @@ to enable the service. If you make changes to this file later on you must also r
 changes to take effect.
 * Reboot or run `systemctl start xbmc-video-server` to start the service
 
+## Settings
+
+* The web interface is running on port 53122
+* All relevant files (the database, image cache, configuration files) is stored in `/storage/xbmc-video-server`
+
 ## Change log
 
 See [CHANGELOG.md](CHANGELOG.md)
