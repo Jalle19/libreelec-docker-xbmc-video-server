@@ -1,0 +1,35 @@
+FROM ubuntu:bionic
+MAINTAINER Sam Stenvall <neggelandia@gmail.com>
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+    apache2 libapache2-mod-php php-imagick php-cli php-sqlite3 php-json php-mbstring git curl unzip composer && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod rewrite expires headers proxy_http
+
+RUN mkdir -p /app /shared
+ADD ./build/xbmc-video-server-1.8.6 /app
+WORKDIR /app
+
+RUN rm -rf vendor/ && \
+	composer install --optimize-autoloader --classmap-authoritative
+	
+RUN rm -rf /app/src/images/image-cache && \
+	ln -sf /shared/image-cache /app/src/images/image-cache && \
+	rm -f /app/src/protected/data/xbmc-video-server.db && \
+	ln -sf /shared/database/xbmc-video-server.db /app/src/protected/data/xbmc-video-server.db && \
+	rm -rf /app/src/protected/runtime && \
+	ln -sf /shared/runtime /app/src/protected/runtime
+	
+RUN rm /etc/apache2/sites-enabled/* && \
+	ln -sf /shared/config/apache2/xbmc-video-server.conf /etc/apache2/sites-enabled/xbmc-video-server.conf
+	
+VOLUME /shared
+
+EXPOSE 80
+
+ADD shared /shared.template
+ADD start.sh /start.sh
+
+CMD ["/bin/sh", "/start.sh"]
