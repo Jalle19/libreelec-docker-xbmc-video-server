@@ -1,5 +1,7 @@
 # libreelec-docker-xbmc-video-server
 
+[![Build Status](https://travis-ci.org/Jalle19/libreelec-docker-xbmc-video-server.svg?branch=master)](https://travis-ci.org/Jalle19/libreelec-docker-xbmc-video-server)
+
 XBMC Video Server for LibreELEC using Docker and systemd
 
 ## Requirements
