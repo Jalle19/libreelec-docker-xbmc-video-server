@@ -18,6 +18,6 @@ wget ${XBMC_VIDEO_SERVER_VERSION} -O xbmc-video-server/build/xbmc-video-server.z
 unzip xbmc-video-server/build/xbmc-video-server.zip -d xbmc-video-server/build/
 
 # Build
-docker build --rm --tag ${IMAGE} xbmc-video-server/
+docker build --rm --no-cache --tag ${IMAGE} xbmc-video-server/
 ID=$(docker images -q ${IMAGE} | head -n1)
 docker tag ${ID} ${IMAGE}:${VERSION}
